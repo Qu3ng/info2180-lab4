@@ -6,6 +6,13 @@ body {
     background-color: #f4f4f4;
 }
 
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
 h1 {
     color: #e62429;
     text-align: center;
@@ -18,14 +25,20 @@ p {
     margin: 10px 0;
 }
 
-input[type="text"] {
-    width: 70%;
+#searchForm {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    justify-content: center;
+}
+
+#searchQuery {
+    flex: 1;
+    max-width: 400px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
-    display: block;
-    margin: 0 auto 10px;
 }
 
 button {
@@ -36,8 +49,6 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    display: block;
-    margin: 0 auto;
 }
 
 button:hover {
@@ -46,26 +57,22 @@ button:hover {
 
 #result {
     margin-top: 20px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 5px;
     min-height: 100px;
 }
 
-/* Styles for single superhero display */
-#result h3 {
+/* Styles for single superhero display - EXACTLY as specified */
+.superhero-alias {
     color: #e62429;
     margin-bottom: 5px;
 }
 
-#result h4 {
+.superhero-name {
     color: #666;
     margin-bottom: 15px;
     font-style: italic;
 }
 
-#result p {
-    text-align: left;
+.superhero-bio {
     line-height: 1.5;
 }
 
@@ -83,11 +90,11 @@ button:hover {
 }
 
 /* Error message styling */
-#result:contains("SUPERHERO NOT FOUND") {
+.error-message {
     color: #e62429;
-    font-weight: bold;
-    text-align: center;
     background-color: #ffe6e6;
-    padding: 20px;
+    padding: 15px;
     border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
 }
