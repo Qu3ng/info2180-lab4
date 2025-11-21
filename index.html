@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVENGERS CHARACTER SEARCH</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <title>Lab4 - Exercise 3</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>AVENGERS CHARACTER SEARCH</h1>
-        <p>Search by Full Name or Alias</p>
-        
-        <form id="searchForm">
-            <input type="text" id="searchQuery" placeholder="e.g. Captain America or Steve Rogers">
-            <button type="submit">Search</button>
-        </form>
-        
-        <div id="result"></div>
-    </div>
+  <h1>Superhero Search (Exercise 3)</h1>
 
-    <script src="app.js"></script>
+  <label for="searchInput">Search by name or alias:</label>
+  <input id="searchInput" type="text" placeholder="e.g. Ironman">
+  <button id="searchBtn">Search</button>
+
+  <div id="result" aria-live="polite"></div>
+
+  <script src="app.js"></script>
 </body>
 </html>
