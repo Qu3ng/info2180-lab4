@@ -1,29 +1,63 @@
-// Utility: safely encode user input for query param
-function safeQuery(q) {
-  return encodeURIComponent(q.trim());
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const searchForm = document.getElementById('searchForm');
+    const searchQuery = document.getElementById('searchQuery');
+    const resultDiv = document.getElementById('result');
 
-function showResult(html) {
-  const resultDiv = document.getElementById('result');
-  resultDiv.innerHTML = html;
-}
-
-document.getElementById('searchBtn').addEventListener('click', function () {
-  const q = document.getElementById('searchInput').value;
-
-  // Build URL with query param (if present)
-  const url = q.trim() === '' ? 'superheroes.php' : 'superheroes.php?query=' + safeQuery(q);
-
-  fetch(url)
-    .then(resp => {
-      if (!resp.ok) throw new Error('Network response was not ok');
-      return resp.text();
-    })
-    .then(text => {
-      // If server returned plain list or hero HTML or "Superhero not found", put it into #result
-      showResult(text);
-    })
-    .catch(err => {
-      showResult('<p>Error fetching data: ' + String(err) + '</p>');
+    // Handle form submission (both button click AND enter key)
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        performSearch();
     });
+
+    function performSearch() {
+        const query = searchQuery.value.trim();
+        
+        // Sanitize input
+        const sanitizedQuery = query.replace(/[<>]/g, '');
+        
+        // Build URL with query parameter
+        let url = 'superheroes.php';
+        if (sanitizedQuery) {
+            url += '?query=' + encodeURIComponent(sanitizedQuery);
+        }
+
+        // Make AJAX request
+        const xhr = new XMLHttpRequest();
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = xhr.responseText.trim();
+                
+                // Display in result div
+                if (response === 'Superhero not found') {
+                    resultDiv.innerHTML = '<div class="error-message">SUPERHERO NOT FOUND</div>';
+                } else if (sanitizedQuery) {
+                    // For single superhero - parse the pipe-separated format
+                    const parts = response.split('|');
+                    if (parts.length >= 3) {
+                        resultDiv.innerHTML = 
+                            '<h3 class="superhero-alias">' + parts[0] + '</h3>' +
+                            '<h4 class="superhero-name">A.K.A ' + parts[1] + '</h4>' +
+                            '<p class="superhero-bio">' + parts[2] + '</p>';
+                    } else {
+                        resultDiv.innerHTML = response;
+                    }
+                } else {
+                    // For all superheroes - display as list
+                    const heroes = response.split('\n').filter(h => h.trim());
+                    let html = '<ul>';
+                    heroes.forEach(hero => {
+                        if (hero.trim()) {
+                            html += '<li>' + hero.trim() + '</li>';
+                        }
+                    });
+                    html += '</ul>';
+                    resultDiv.innerHTML = html;
+                }
+            }
+        };
+        
+        xhr.open('GET', url, true);
+        xhr.send();
+    }
 });

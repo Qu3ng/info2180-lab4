@@ -5,7 +5,7 @@ $superheroes = [
       "id" => 1,
       "name" => "Steve Rogers",
       "alias" => "Captain America",
-      "biography" => "Recipient of the Super-Soldier serum, World War II hero Steve Rogers fights for American ideals as one of the world’s mightiest heroes and the leader of the Avengers.",
+      "biography" => "Recipient of the Super-Soldier serum, World War II hero Steve Rogers fights for American ideals as one of the world's mightiest heroes and the leader of the Avengers.",
   ],
   [
       "id" => 2,
@@ -17,7 +17,7 @@ $superheroes = [
       "id" => 3,
       "name" => "Peter Parker",
       "alias" => "Spiderman",
-      "biography" => "Bitten by a radioactive spider, Peter Parker’s arachnid abilities give him amazing powers he uses to help others, while his personal life continues to offer plenty of obstacles.",
+      "biography" => "Bitten by a radioactive spider, Peter Parker's arachnid abilities give him amazing powers he uses to help others, while his personal life continues to offer plenty of obstacles.",
   ],
   [
       "id" => 4,
@@ -29,25 +29,25 @@ $superheroes = [
       "id" => 5,
       "name" => "Natasha Romanov",
       "alias" => "Black Widow",
-      "biography" => "Despite super spy Natasha Romanoff’s checkered past, she’s become one of S.H.I.E.L.D.’s most deadly assassins and a frequent member of the Avengers.",
+      "biography" => "Despite super spy Natasha Romanoff's checkered past, she's become one of S.H.I.E.L.D.'s most deadly assassins and a frequent member of the Avengers.",
   ],
   [
       "id" => 6,
       "name" => "Bruce Banner",
       "alias" => "Hulk",
-      "biography" => "Dr. Bruce Banner lives a life caught between the soft-spoken scientist he’s always been and the uncontrollable green monster powered by his rage.",
+      "biography" => "Dr. Bruce Banner lives a life caught between the soft-spoken scientist he's always been and the uncontrollable green monster powered by his rage.",
   ],
   [
       "id" => 7,
       "name" => "Clint Barton",
       "alias" => "Hawkeye",
-      "biography" => "A master marksman and longtime friend of Black Widow, Clint Barton serves as the Avengers’ amazing archer.",
+      "biography" => "A master marksman and longtime friend of Black Widow, Clint Barton serves as the Avengers' amazing archer.",
   ],
   [
       "id" => 8,
       "name" => "T'challa",
       "alias" => "Black Panther",
-      "biography" => "T’Challa is the king of the secretive and highly advanced African nation of Wakanda - as well as the powerful warrior known as the Black Panther.",
+      "biography" => "T'Challa is the king of the secretive and highly advanced African nation of Wakanda - as well as the powerful warrior known as the Black Panther.",
   ],
   [
       "id" => 9,
@@ -63,10 +63,30 @@ $superheroes = [
   ], 
 ];
 
-?>
+// Check if search query exists
+$query = isset($_GET['query']) ? trim($_GET['query']) : '';
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+if ($query) {
+    // Search for superhero by alias or name
+    $found = false;
+    foreach ($superheroes as $superhero) {
+        // Case-insensitive search in both alias and name
+        if (stripos($superhero['alias'], $query) !== false || stripos($superhero['name'], $query) !== false) {
+            // Return in format: Alias|Name|Biography
+            echo $superhero['alias'] . '|' . $superhero['name'] . '|' . $superhero['biography'];
+            $found = true;
+            break;
+        }
+    }
+    
+    if (!$found) {
+        echo 'Superhero not found';
+    }
+} else {
+    // No query - return all superheroes as list
+    foreach ($superheroes as $superhero) {
+        echo $superhero['alias'] . "\n";
+    }
+}
+
+?>
